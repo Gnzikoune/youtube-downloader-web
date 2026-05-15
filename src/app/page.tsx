@@ -1,65 +1,92 @@
-import Image from "next/image";
+'use client';
+
+import Hero from '@/components/Hero';
+import Features from '@/components/Features';
+import Stats from '@/components/Stats';
+import FAQ from '@/components/FAQ';
+import DownloadButton from '@/components/DownloadButton';
 
 export default function Home() {
+  const handleDonate = async () => {
+    try {
+      const response = await fetch('/api/donate', { method: 'POST' });
+      const data = await response.json();
+      if (data.url) window.location.href = data.url;
+    } catch (error) {
+      console.error('Erreur:', error);
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="gradient-bg min-h-screen">
+      {/* Navbar */}
+      <nav className="fixed top-0 w-full z-50 px-6 py-4">
+        <div className="max-w-6xl mx-auto flex justify-between items-center glass rounded-2xl px-6 py-3">
+          <div className="flex items-center gap-2 font-bold text-lg">
+            <img src="/icon.png" alt="Logo" className="w-8 h-8 object-contain" />
+            YT Downloader
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+            <a href="#features" className="hover:text-white transition-colors">Fonctionnalités</a>
+            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
+            <a href="https://github.com/Gnzikoune/youtube-downloader" target="_blank" className="hover:text-white transition-colors">GitHub</a>
+          </div>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={handleDonate}
+              className="hidden sm:flex items-center gap-2 border border-white/10 hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <span className="text-orange-500">❤️</span> Faire un don
+            </button>
+            <a href="https://github.com/Gnzikoune/youtube-downloader/releases/latest" className="bg-white text-slate-950 px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-200 transition-all">
+              Télécharger
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      {/* Sections */}
+      <Hero />
+      
+      {/* Compteur de téléchargements */}
+      <Stats />
+
+      {/* Fonctionnalités */}
+      <section id="features">
+        <Features />
+      </section>
+
+      {/* FAQ */}
+      <section id="faq">
+        <FAQ />
+      </section>
+
+      {/* CTA Final */}
+      <section className="py-24 px-6 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
+            Prêt à commencer ?
+          </h2>
+          <p className="text-slate-400 mb-10 text-lg">
+            Gratuit, sans inscription, sans publicité. Juste vos vidéos.
           </p>
+          <DownloadButton />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-6 border-t border-white/5 text-center">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-slate-500 text-sm mb-4">
+            © {new Date().getFullYear()} YT Downloader Pro — Open Source & Gratuit
+          </p>
+          <div className="flex justify-center gap-6 text-slate-500 text-xs">
+            <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
+            <a href="#" className="hover:text-white transition-colors">Conditions</a>
+            <a href="https://github.com/Gnzikoune/youtube-downloader" target="_blank" className="hover:text-white transition-colors">GitHub</a>
+          </div>
         </div>
-      </main>
-    </div>
+      </footer>
+    </main>
   );
 }
