@@ -32,14 +32,6 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative z-10"
         >
-          <div className="flex justify-center mb-8">
-            <img 
-              src="/icon.png" 
-              alt="YT Downloader Pro Logo" 
-              className="w-20 h-20 md:w-24 md:h-24 object-contain animate-float drop-shadow-[0_0_30px_rgba(239,68,68,0.3)]"
-            />
-          </div>
-
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mt-4 mb-6 animate-fade-in">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

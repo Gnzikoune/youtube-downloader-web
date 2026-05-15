@@ -5,6 +5,7 @@ import Features from '@/components/Features';
 import Stats from '@/components/Stats';
 import FAQ from '@/components/FAQ';
 import DownloadButton from '@/components/DownloadButton';
+import Link from 'next/link';
 
 export default function Home() {
   const handleDonate = async () => {
@@ -81,8 +82,8 @@ export default function Home() {
             © {new Date().getFullYear()} YT Downloader Pro — Open Source & Gratuit
           </p>
           <div className="flex justify-center gap-6 text-slate-500 text-xs">
-            <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
-            <a href="#" className="hover:text-white transition-colors">Conditions</a>
+            <Link href="/privacy" className="hover:text-white transition-colors">Confidentialité</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Conditions</Link>
             <a href="https://github.com/Gnzikoune/youtube-downloader" target="_blank" className="hover:text-white transition-colors">GitHub</a>
           </div>
         </div>

@@ -12,8 +12,8 @@ export default function AppMockup() {
       {/* Sidebar */}
       <div className="w-[180px] bg-[#0f172a] border-r border-white/5 p-4 flex flex-col shrink-0">
         <div className="flex items-center gap-2 mb-8 px-1">
-          <div className="bg-red-600 rounded-md p-1.5 text-[10px] font-black shadow-lg shadow-red-600/20">▶</div>
-          <span className="font-bold text-xs text-white tracking-tight">YT Downloader</span>
+          <img src="/icon.png" alt="Logo" className="w-5 h-5 object-contain" />
+          <span className="font-bold text-xs text-white tracking-tight">YT Downloader Pro</span>
         </div>
         
         <nav className="space-y-1">
