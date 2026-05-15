@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "Récupérez vos vidéos YouTube en 4K, 1080p ou MP3 avec une expérience premium. Gratuit pour Windows, Mac et Linux.",
 };
 
+import { Analytics } from "@vercel/analytics/react"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -15,6 +17,7 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         {children}
+        <Analytics />
       </body>
     </html>
   );
