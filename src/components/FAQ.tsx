@@ -39,7 +39,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.07 }}
+      transition={{ delay: index * 0.09 }}
       className="border border-white/5 rounded-2xl overflow-hidden"
     >
       <button
