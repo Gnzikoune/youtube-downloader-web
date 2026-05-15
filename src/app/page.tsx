@@ -79,7 +79,7 @@ export default function Home() {
       <footer className="py-12 px-6 border-t border-white/5 text-center">
         <div className="max-w-6xl mx-auto">
           <p className="text-slate-500 text-sm mb-4">
-            © {new Date().getFullYear()} YT Downloader Pro — Open Source & Gratuit
+            © {new Date().getFullYear()} YT Downloader Pro — Conçu par Gildas NZIKOUNÉ
           </p>
           <div className="flex justify-center gap-6 text-slate-500 text-xs">
             <Link href="/privacy" className="hover:text-white transition-colors">Confidentialité</Link>
