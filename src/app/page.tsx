@@ -1,22 +1,16 @@
 'use client';
 
+import { useState } from 'react';
 import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import Stats from '@/components/Stats';
 import FAQ from '@/components/FAQ';
 import DownloadButton from '@/components/DownloadButton';
+import DonateModal from '@/components/DonateModal';
 import Link from 'next/link';
 
 export default function Home() {
-  const handleDonate = async () => {
-    try {
-      const response = await fetch('/api/donate', { method: 'POST' });
-      const data = await response.json();
-      if (data.url) window.location.href = data.url;
-    } catch (error) {
-      console.error('Erreur:', error);
-    }
-  };
+  const [isDonateOpen, setIsDonateOpen] = useState(false);
 
   return (
     <main className="gradient-bg min-h-screen">
@@ -34,8 +28,8 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3">
             <button 
-              onClick={handleDonate}
-              className="hidden sm:flex items-center gap-2 border border-white/10 hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all"
+              onClick={() => setIsDonateOpen(true)}
+              className="hidden sm:flex items-center gap-2 border border-white/10 hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer"
             >
               <span className="text-orange-500">❤️</span> Faire un don
             </button>
@@ -88,6 +82,8 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      {/* Fenêtre modale de don custom Push USSD */}
+      <DonateModal isOpen={isDonateOpen} onClose={() => setIsDonateOpen(false)} />
     </main>
   );
 }
