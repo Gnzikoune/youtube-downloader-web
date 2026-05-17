@@ -14,8 +14,8 @@ export async function POST() {
     const linkInfo = await singPay.generatePaymentLink(
       1000, 
       reference,
-      'https://youtube-downloader-pro.vercel.app/success',
-      'https://youtube-downloader-pro.vercel.app/cancel'
+      'https://youtube-downloader-web-pro.vercel.app/success',
+      'https://youtube-downloader-web-pro.vercel.app/cancel'
     );
 
     return NextResponse.json({ url: linkInfo.link });
