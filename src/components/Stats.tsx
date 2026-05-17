@@ -58,9 +58,9 @@ export default function Stats() {
         const internalRes = await fetch('/api/counter');
         const internalData = await internalRes.json();
 
-        // 3. Calcul final : On commence à 1 (en ignorant les 11 tests précédents de GitHub)
+        // 3. Calcul final : On commence à 1 (en ignorant les 21 tests précédents de GitHub)
         setStats({
-          downloads: totalDownloads > 11 ? (totalDownloads - 11) : 1,
+          downloads: totalDownloads > 21 ? (totalDownloads - 21) : 1,
           playlists: internalData.playlists || 0
         });
         setLoaded(true);
