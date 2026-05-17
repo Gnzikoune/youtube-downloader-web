@@ -1,0 +1,43 @@
+# 🌐 YT Downloader Pro - Web App Guidelines
+
+Welcome, AI Coding Assistant! You are working on the official **YT Downloader Pro** Next.js web application developed by **Gildas NZIKOUNÉ**.
+This file defines strict conventions, data storage guidelines, API behaviors, and visual patterns that you MUST follow.
+
+---
+
+## 👤 Developer & Brand Context
+- **Creator & Brand Owner**: Gildas NZIKOUNÉ
+- **Official Brand Name**: YT Downloader Pro
+- **GitHub Desktop Repository**: `Gnzikoune/youtube-downloader`
+- **GitHub Web Repository**: `Gnzikoune/youtube-downloader-web`
+- **Production Host URL**: `https://youtube-downloader-web-pro.vercel.app`
+
+---
+
+## 🛠️ Strict Architecture & Integration Rules
+
+### 1. Robust Counter API & Vercel KV (Redis)
+- **Endpoint**: `/api/counter/route.ts` handles the processed playlists stats.
+- **Hybrid Storage Design**:
+  - **Production (Vercel KV)**: When environment variables `KV_REST_API_URL` and `KV_REST_API_TOKEN` are present, use `kv.incr('playlists_count')` and `kv.get('playlists_count')` for fast, atomic, persistent database storage.
+  - **Local Fallback (stats.json)**: If KV variables are absent (local development), seamlessly fallback to reading/writing from `stats.json` in the root workspace. This ensures local dev requires no external setup.
+
+### 2. GitHub API Rate-Limit Immunization (Very Important)
+- **VPN / Shared IP Protection**: Anonymous requests to the GitHub Releases API (`api.github.com/repos/.../releases`) are heavily throttled.
+- **No Infinite Loading / Broken Links**: 
+  - Never display infinite loading state (`...`) for version tags. Default to the latest hardcoded version (`v1.9.1` or newer) in the initial state of components like [Hero.tsx](src/components/Hero.tsx).
+  - Check `res.ok` before parsing JSON and throw on rate-limit HTTP errors.
+  - Always pre-populate direct fallbacks in [DownloadButton.tsx](src/components/DownloadButton.tsx) with direct binary links for Windows (`.exe`), macOS (`.dmg`), and Linux (`.AppImage`) based on the latest stable version (e.g., `https://github.com/Gnzikoune/youtube-downloader/releases/download/v1.9.1/YT-Downloader-Pro-Setup-1.9.1.exe`). Clicking the download button must NEVER direct the user to the generic GitHub Releases page if the API fails.
+
+### 3. Mobile Money Donations (SingPay API)
+- **SingPay Push USSD Integration**: The route `/api/donate` communicates with the SingPay gateway.
+- **Secrets Security**: The `SINGPAY_CLIENT_SECRET` must remain strictly server-side. Do NOT expose it in client-side Next.js routes.
+
+### 4. Interactive UX & Navigation Rules
+- **Smooth Scroll CTA**: The navbar logo and name "YT Downloader Pro" must link to `/#home` (smooth scrolling to the top). The navbar "Télécharger" CTA link must point to `/#download` (smooth scrolling to the final Download section at the bottom), keeping users engaged on the page instead of redirecting them away to GitHub.
+
+---
+
+## 🚀 Git Conventions
+- Write clear, descriptive commit messages.
+- Maintain consistent styles and keep client/server component boundaries clearly separated.
