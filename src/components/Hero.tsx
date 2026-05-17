@@ -6,15 +6,18 @@ import DownloadButton from './DownloadButton';
 import AppMockup from './AppMockup';
 
 export default function Hero() {
-  const [version, setVersion] = useState('...');
+  const [version, setVersion] = useState('v1.9.1');
 
   useEffect(() => {
     fetch('https://api.github.com/repos/Gnzikoune/youtube-downloader/releases/latest')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Rate limit or connection issue');
+        return res.json();
+      })
       .then(data => {
         if (data.tag_name) setVersion(data.tag_name);
       })
-      .catch(() => setVersion('v1.0.0'));
+      .catch(() => setVersion('v1.9.1'));
   }, []);
 
   return (

@@ -15,10 +15,20 @@ export default function DownloadButton() {
   const [os, setOs] = useState<OS>('Unknown');
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [links, setLinks] = useState<Record<string, string>>({});
+
+  const fallbackVersion = 'v1.9.1';
+  const cleanFallbackVersion = '1.9.1';
+  const fallbackUrl = 'https://github.com/Gnzikoune/youtube-downloader/releases/latest';
+
+  const defaultLinks: Record<string, string> = {
+    'Windows': `https://github.com/Gnzikoune/youtube-downloader/releases/download/${fallbackVersion}/YT-Downloader-Pro-Setup-${cleanFallbackVersion}.exe`,
+    'macOS': `https://github.com/Gnzikoune/youtube-downloader/releases/download/${fallbackVersion}/YT-Downloader-Pro-${cleanFallbackVersion}.dmg`,
+    'Linux': `https://github.com/Gnzikoune/youtube-downloader/releases/download/${fallbackVersion}/YT-Downloader-Pro-${cleanFallbackVersion}.AppImage`,
+  };
+
+  const [links, setLinks] = useState<Record<string, string>>(defaultLinks);
 
   const repoApiUrl = 'https://api.github.com/repos/Gnzikoune/youtube-downloader/releases/latest';
-  const fallbackUrl = 'https://github.com/Gnzikoune/youtube-downloader/releases/latest';
 
   useEffect(() => {
     setMounted(true);
@@ -31,21 +41,26 @@ export default function DownloadButton() {
 
     // 2. Récupérer les liens de téléchargement directs depuis GitHub
     fetch(repoApiUrl)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('API Rate Limit or Connection Error');
+        return res.json();
+      })
       .then(data => {
         const assets: GitHubAsset[] = data.assets || [];
-        const newLinks: Record<string, string> = {};
-        
-        assets.forEach(asset => {
-          if (asset.name.endsWith('.exe')) newLinks['Windows'] = asset.browser_download_url;
-          if (asset.name.endsWith('.dmg')) newLinks['macOS'] = asset.browser_download_url;
-          if (asset.name.endsWith('.AppImage')) newLinks['Linux'] = asset.browser_download_url;
-        });
-        
-        setLinks(newLinks);
+        if (assets.length > 0) {
+          const newLinks: Record<string, string> = {};
+          assets.forEach(asset => {
+            if (asset.name.endsWith('.exe')) newLinks['Windows'] = asset.browser_download_url;
+            if (asset.name.endsWith('.dmg')) newLinks['macOS'] = asset.browser_download_url;
+            if (asset.name.endsWith('.AppImage')) newLinks['Linux'] = asset.browser_download_url;
+          });
+          setLinks(newLinks);
+        }
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setLoading(false);
+      });
   }, []);
 
   const getIcon = () => {
